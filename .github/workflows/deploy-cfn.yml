@@ -43,3 +43,8 @@ jobs:
         role-session-name: AWSSession
         aws-region: us-east-2
 
+    - name: Deploy to AWS CloudFormation
+      uses: aws-actions/aws-cloudformation-github-deploy@v1
+      with:
+        name: MyStack
+        template: ./templates/layer-zero.yaml

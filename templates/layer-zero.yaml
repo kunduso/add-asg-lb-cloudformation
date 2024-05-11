@@ -1,0 +1,12 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: Basic layer zero resources
+Resources:
+  App7VPC:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: "10.40.45.0/27"
+      EnableDnsHostnames: true
+      EnableDnsSupport: true
+      Tags: 
+        - Key: Name
+          Value: "app-7"
