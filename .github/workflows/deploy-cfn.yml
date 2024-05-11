@@ -54,4 +54,4 @@ jobs:
         aws cloudformation deploy \
           --template ./templates/layer-zero.yaml \
           --stack-name layer-zero \
-          --parameter-overrides ./parameters/layer-zero.json
+          --parameter-overrides file://./parameters/layer-zero.json
