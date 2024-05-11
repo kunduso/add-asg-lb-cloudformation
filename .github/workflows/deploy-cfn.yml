@@ -43,8 +43,14 @@ jobs:
         role-session-name: AWSSession
         aws-region: us-east-2
 
+    # - name: Deploy to AWS CloudFormation
+    #   uses: aws-actions/aws-cloudformation-github-deploy@v1
+    #   with:
+    #     name: layer-zero
+    #     template: ./templates/layer-zero.yaml
     - name: Deploy to AWS CloudFormation
-      uses: aws-actions/aws-cloudformation-github-deploy@v1
-      with:
-        name: layer-zero
-        template: ./templates/layer-zero.yaml
+      run: |
+        aws cloudformation deploy \
+          --template-file ./templates/layer-zero.yaml \
+          --stack-name layer-zero \
+          --parameter-overrides file://./parameters/layer-zero.json \
