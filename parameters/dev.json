@@ -1,0 +1,6 @@
+[
+    {
+      "ParameterKey": "VpcCidr",
+      "ParameterValue": "10.40.45.0/27"
+    }
+  ]

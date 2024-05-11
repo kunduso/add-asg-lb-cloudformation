@@ -4,7 +4,7 @@ Resources:
   App7VPC:
     Type: AWS::EC2::VPC
     Properties:
-      CidrBlock: "10.40.45.0/27"
+      CidrBlock: !Ref VpcCidr
       EnableDnsHostnames: true
       EnableDnsSupport: true
       Tags: 
