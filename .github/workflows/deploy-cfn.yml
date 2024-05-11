@@ -30,6 +30,7 @@ jobs:
     defaults:
       run:
         shell: bash
+        working-directory: ./
 
     steps:
     # Checkout the repository to the GitHub Actions runner
@@ -51,6 +52,6 @@ jobs:
     - name: Deploy to AWS CloudFormation
       run: |
         aws cloudformation deploy \
-          --template-file ./templates/layer-zero.yaml \
+          --template ./templates/layer-zero.yaml \
           --stack-name layer-zero \
-          --parameter-overrides file://./parameters/layer-zero.json \
+          --parameter-overrides ./parameters/layer-zero.json
