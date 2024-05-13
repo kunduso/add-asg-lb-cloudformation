@@ -1,0 +1,17 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: Basic layer zero resources
+Parameters: 
+    "VpcCidr": 
+      "Type": "String"
+      "Description": "Specifies the CIDR"
+      "Default": ""
+Resources:
+  App7VPC:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: !Ref VpcCidr
+      EnableDnsHostnames: true
+      EnableDnsSupport: true
+      Tags: 
+        - Key: Name
+          Value: "app-7"

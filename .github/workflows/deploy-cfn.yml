@@ -1,0 +1,57 @@
+name: deploy-cloudformation
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ '*' ]
+    paths-ignore:
+      - '**/README.md'
+  pull_request:
+    branches: ["main"]
+    paths-ignore:
+      - '**/README.md'
+
+permissions: read-all
+#--------------------------
+#
+# PLEASE READ: Add a GitHub Actions variable 'INFRACOST_SCAN_TYPE' and set the value to either 'hcl_code' or 'tf_plan' depending on what type of Infracost scan desired.
+#
+#--------------------------
+jobs:
+  deploy:
+    name: 'continuous-integration'
+    runs-on: ubuntu-latest
+    environment: development
+    permissions:
+      contents: read
+      id-token: write
+      pull-requests: write
+    # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
+    defaults:
+      run:
+        shell: bash
+        working-directory: ./
+
+    steps:
+    # Checkout the repository to the GitHub Actions runner
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Configure AWS Credentials Action For GitHub Actions
+      uses: aws-actions/configure-aws-credentials@v1-node16
+      with:
+        role-to-assume: ${{ secrets.IAM_ROLE }}
+        role-session-name: AWSSession
+        aws-region: us-east-2
+
+    # - name: Deploy to AWS CloudFormation
+    #   uses: aws-actions/aws-cloudformation-github-deploy@v1
+    #   with:
+    #     name: layer-zero
+    #     template: ./templates/layer-zero.yaml
+    - name: Deploy to AWS CloudFormation
+      run: |
+        aws cloudformation deploy \
+          --template ./templates/layer-zero.yaml \
+          --stack-name layer-zero \
+          --parameter-overrides file://./parameters/layer-zero.json
