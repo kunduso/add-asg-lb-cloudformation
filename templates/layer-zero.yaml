@@ -1,22 +1,22 @@
 AWSTemplateFormatVersion: "2010-09-09"
 Description: Basic layer zero resources
 Parameters: 
-    "Name": 
-      "Type": String
-      "Description": "The name prefix for all resources."
-      "Default": ""
-    "VpcCidr": 
-      "Type": String
-      "Description": "Specifies the VPC CIDR."
-      "Default": ""
-    "SubnetCidrPublic": 
-      "Type": List<String>
-      "Description": "The Public subnet CIDR."
-      "Default": ""
-    "SubnetCidrPrivate": 
-      "Type": List<String>
-      "Description": "The Private subnet CIDR."
-      "Default": ""
+    Name: 
+      Type: String
+      Description: The name prefix for all resources.
+      Default: ""
+    VpcCidr: 
+      Type: String
+      Description: Specifies the VPC CIDR.
+      Default: ""
+    SubnetCidrPublic: 
+      Type: List<String>
+      Description: The Public subnet CIDR.
+      Default: ""
+    SubnetCidrPrivate: 
+      Type: List<String>
+      Description: The Private subnet CIDR.
+      Default: ""
 Resources:
   VPC:
     Type: AWS::EC2::VPC
@@ -33,7 +33,7 @@ Resources:
     Properties:
       VpcId: !Ref VPC
       CidrBlock: !Select [0, !Ref SubnetCidrPublic]
-      AvailabilityZone: !Select [0, !Ref AvailabilityZone]
+      AvailabilityZone: !Select [0, !Fn::GetAZs ""]
       Tags:
         - Key: Name
           Value: !Sub '${Name}-public-1'
@@ -43,7 +43,7 @@ Resources:
     Properties:
       VpcId: !Ref VPC
       CidrBlock: !Select [1, !Ref SubnetCidrPublic]
-      AvailabilityZone: !Select [1, !Ref AvailabilityZone]
+      AvailabilityZone: !Select [1, !Fn::GetAZs ""]
       Tags:
         - Key: Name
           Value: !Sub '${Name}-public-2'
@@ -82,7 +82,7 @@ Resources:
     Properties:
       VpcId: !Ref VPC
       CidrBlock: !Select [0, !Ref SubnetCidrPrivate]
-      AvailabilityZone: !Select [0, !Ref AvailabilityZone]
+      AvailabilityZone: !Select [0, !Fn::GetAZs ""]
       Tags:
         - Key: Name
           Value: !Sub '${Name}-private-1'
@@ -92,7 +92,7 @@ Resources:
     Properties:
       VpcId: !Ref VPC
       CidrBlock: !Select [1, !Ref SubnetCidrPrivate]
-      AvailabilityZone: !Select [1, !Ref AvailabilityZone]
+      AvailabilityZone: !Select [1, !Fn::GetAZs ""]
       Tags:
         - Key: Name
           Value: !Sub '${Name}-private-2'
