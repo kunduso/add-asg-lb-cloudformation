@@ -43,15 +43,22 @@ jobs:
         role-to-assume: ${{ secrets.IAM_ROLE }}
         role-session-name: AWSSession
         aws-region: us-east-2
-
+    - name: Generate Unique ID
+      id: unique_id
+      run: echo "UNIQUE_ID=$(date +'%Y%m%d').${{ github.run_number }}.${{ github.run_attempt }}" >> $GITHUB_ENV
     # - name: Deploy to AWS CloudFormation
-    #   uses: aws-actions/aws-cloudformation-github-deploy@v1
-    #   with:
-    #     name: layer-zero
-    #     template: ./templates/layer-zero.yaml
+    #   run: |
+    #     aws cloudformation deploy \
+    #       --template ./templates/layer-zero.yaml \
+    #       --stack-name layer-zero \
+    #       --parameter-overrides file://./parameters/layer-zero.json
+
     - name: Deploy to AWS CloudFormation
       run: |
-        aws cloudformation deploy \
-          --template ./templates/layer-zero.yaml \
+        aws cloudformation create-change-set \
+          --template-body file://./templates/layer-zero.yaml \
           --stack-name layer-zero \
-          --parameter-overrides file://./parameters/layer-zero.json
+          --parameters file://./parameters/layer-zero.json \
+          --change-set-name layer-zero-changeset-${{ env.UNIQUE_ID }} \
+      env:
+        UNIQUE_ID: ${{ env.UNIQUE_ID }}
