@@ -1,26 +1,27 @@
 AWSTemplateFormatVersion: "2010-09-09"
 Description: Basic layer zero resources
 Parameters: 
-    Name: 
-      Type: String
-      Description: The name prefix for all resources.
-      Default: ""
-    VpcCidr: 
-      Type: String
-      Description: Specifies the VPC CIDR.
-      Default: ""
-    SubnetCidrPublic: 
-      Type: List<String>
-      Description: The Public subnet CIDR.
-      Default: ""
-    SubnetCidrPrivate: 
+  Name: 
+    Type: String
+    Description: The name prefix for all resources.
+    Default: ""
+  VpcCidr: 
+    Type: String
+    Description: Specifies the VPC CIDR.
+    Default: ""
+  SubnetCidrPublic: 
+    Type: List<String>
+    Description: The Public subnet CIDR.
+    Default: ""
+  SubnetCidrPrivate: 
       Type: List<String>
       Description: The Private subnet CIDR.
       Default: ""
-    MyAZParameter:
-      Type: List<String>
-      Description: Select one or more Availability Zones
-      Default: !Fn::GetAZs !Ref "AWS::Region"
+  MyAZParameter:
+    Type: List<AWS::EC2::AvailabilityZone::Name>
+    Description: Select one or more Availability Zones
+    Default: !Fn::GetAZs
+
 Resources:
   VPC:
     Type: AWS::EC2::VPC
