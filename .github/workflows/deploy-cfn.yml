@@ -45,7 +45,7 @@ jobs:
         aws-region: us-east-2
     - name: Generate Unique ID
       id: unique_id
-      run: echo "UNIQUE_ID=$(date +'%Y%m%d').${{ github.run_number }}.${{ github.run_attempt }}" >> $GITHUB_ENV
+      run: echo "UNIQUE_ID=$(date +'%Y%m%d')-${{ github.run_number }}-${{ github.run_attempt }}" >> $GITHUB_ENV
     # - name: Deploy to AWS CloudFormation
     #   run: |
     #     aws cloudformation deploy \
