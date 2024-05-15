@@ -14,13 +14,9 @@ Parameters:
     Description: The Public subnet CIDR.
     Default: ""
   SubnetCidrPrivate: 
-      Type: List<String>
-      Description: The Private subnet CIDR.
-      Default: ""
-  MyAZParameter:
-    Type: List<AWS::EC2::AvailabilityZone::Name>
-    Description: Select one or more Availability Zones
-    Default: !Fn::GetAZs !Ref "AWS::Region"
+    Type: List<String>
+    Description: The Private subnet CIDR.
+    Default: ""
 
 Resources:
   VPC:
@@ -38,7 +34,7 @@ Resources:
     Properties:
       VpcId: !Ref VPC
       CidrBlock: !Select [0, !Ref SubnetCidrPublic]
-      AvailabilityZone: !Select [0, !Ref MyAZParameter]
+      AvailabilityZone: !Select [0, !GetAZs '']
       Tags:
         - Key: Name
           Value: !Sub '${Name}-public-1'
@@ -48,7 +44,7 @@ Resources:
     Properties:
       VpcId: !Ref VPC
       CidrBlock: !Select [1, !Ref SubnetCidrPublic]
-      AvailabilityZone: !Select [1, !Ref MyAZParameter]
+      AvailabilityZone: !Select [1, !GetAZs '']
       Tags:
         - Key: Name
           Value: !Sub '${Name}-public-2'
@@ -87,7 +83,7 @@ Resources:
     Properties:
       VpcId: !Ref VPC
       CidrBlock: !Select [0, !Ref SubnetCidrPrivate]
-      AvailabilityZone: !Select [0, !Ref MyAZParameter]
+      AvailabilityZone: !Select [0, !GetAZs '']
       Tags:
         - Key: Name
           Value: !Sub '${Name}-private-1'
@@ -97,7 +93,7 @@ Resources:
     Properties:
       VpcId: !Ref VPC
       CidrBlock: !Select [1, !Ref SubnetCidrPrivate]
-      AvailabilityZone: !Select [1, !Ref MyAZParameter]
+      AvailabilityZone: !Select [1, !GetAZs '']
       Tags:
         - Key: Name
           Value: !Sub '${Name}-private-2'
