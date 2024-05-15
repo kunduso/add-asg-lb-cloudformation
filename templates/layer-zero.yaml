@@ -110,10 +110,14 @@ Outputs:
   VPCId:
     Value: !Ref VPC
   PublicSubnetIds:
-    Value: 
-      - !Ref PublicSubnet
-      - !Ref PublicSubnet2
+    Value:
+      Fn::Join:
+      - ","
+      - - !Ref PublicSubnet
+        - !Ref PublicSubnet2
   PrivateSubnetIds:
-    Value: 
-      - !Ref PrivateSubnet
-      - !Ref PrivateSubnet2
+    Value:
+      Fn::Join:
+      - ","
+      - - !Ref PrivateSubnet
+        - !Ref PrivateSubnet2
