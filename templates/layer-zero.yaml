@@ -1,17 +1,118 @@
 AWSTemplateFormatVersion: "2010-09-09"
 Description: Basic layer zero resources
 Parameters: 
+    "Name": 
+      "Type": String
+      "Description": "The name prefix for all resources."
+      "Default": ""
     "VpcCidr": 
-      "Type": "String"
-      "Description": "Specifies the CIDR"
+      "Type": String
+      "Description": "Specifies the VPC CIDR."
+      "Default": ""
+    "SubnetCidrPublic": 
+      "Type": List<String>
+      "Description": "The Public subnet CIDR."
+      "Default": ""
+    "SubnetCidrPrivate": 
+      "Type": List<String>
+      "Description": "The Private subnet CIDR."
       "Default": ""
 Resources:
-  App7VPC:
+  VPC:
     Type: AWS::EC2::VPC
     Properties:
       CidrBlock: !Ref VpcCidr
-      EnableDnsHostnames: true
       EnableDnsSupport: true
-      Tags: 
+      EnableDnsHostnames: true
+      Tags:
         - Key: Name
-          Value: "app-7"
+          Value: !Ref Name
+
+  PublicSubnet:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref VPC
+      CidrBlock: !Select [0, !Ref SubnetCidrPublic]
+      AvailabilityZone: !Select [0, !Ref AvailabilityZone]
+      Tags:
+        - Key: Name
+          Value: !Sub '${Name}-public-1'
+
+  PublicSubnet2:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref VPC
+      CidrBlock: !Select [1, !Ref SubnetCidrPublic]
+      AvailabilityZone: !Select [1, !Ref AvailabilityZone]
+      Tags:
+        - Key: Name
+          Value: !Sub '${Name}-public-2'
+
+  RouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref VPC
+      Tags:
+        - Key: Name
+          Value: !Sub '${Name}-route-table'
+
+  PublicRoute:
+    Type: AWS::EC2::Route
+    DependsOn: InternetGatewayAttachment
+    Properties:
+      RouteTableId: !Ref RouteTable
+      DestinationCidrBlock: '0.0.0.0/0'
+      GatewayId: !Ref InternetGateway
+
+  InternetGateway:
+    Type: AWS::EC2::InternetGateway
+    Properties:
+      Tags:
+        - Key: Name
+          Value: !Sub '${Name}-gateway'
+
+  InternetGatewayAttachment:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+      VpcId: !Ref VPC
+      InternetGatewayId: !Ref InternetGateway
+
+  PrivateSubnet:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref VPC
+      CidrBlock: !Select [0, !Ref SubnetCidrPrivate]
+      AvailabilityZone: !Select [0, !Ref AvailabilityZone]
+      Tags:
+        - Key: Name
+          Value: !Sub '${Name}-private-1'
+
+  PrivateSubnet2:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref VPC
+      CidrBlock: !Select [1, !Ref SubnetCidrPrivate]
+      AvailabilityZone: !Select [1, !Ref AvailabilityZone]
+      Tags:
+        - Key: Name
+          Value: !Sub '${Name}-private-2'
+
+  PrivateRouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref VPC
+      Tags:
+        - Key: Name
+          Value: !Sub '${Name}-route-table-private'
+
+Outputs:
+  VPCId:
+    Value: !Ref VPC
+  PublicSubnetIds:
+    Value: 
+      - !Ref PublicSubnet
+      - !Ref PublicSubnet2
+  PrivateSubnetIds:
+    Value: 
+      - !Ref PrivateSubnet
+      - !Ref PrivateSubnet2
