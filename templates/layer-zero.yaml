@@ -20,7 +20,7 @@ Parameters:
   MyAZParameter:
     Type: List<AWS::EC2::AvailabilityZone::Name>
     Description: Select one or more Availability Zones
-    Default: !Fn::GetAZs
+    Default: !Fn::GetAZs !Ref "AWS::Region"
 
 Resources:
   VPC:
