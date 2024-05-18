@@ -56,6 +56,7 @@ Resources:
       Tags:
         - Key: Name
           Value: !Sub '${Name}-route-table'
+
   PublicRouteTableAssociation:
     Type: AWS::EC2::SubnetRouteTableAssociation
     Properties:
@@ -66,7 +67,7 @@ Resources:
     Type: AWS::EC2::Route
     DependsOn: InternetGatewayAttachment
     Properties:
-      RouteTableId: !Ref RouteTable
+      RouteTableId: !Ref PublicRouteTable
       DestinationCidrBlock: '0.0.0.0/0'
       GatewayId: !Ref InternetGateway
 
@@ -111,6 +112,11 @@ Resources:
         - Key: Name
           Value: !Sub '${Name}-route-table-private'
 
+  PrivateRouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId: !Ref PrivateRouteTable
+      SubnetId: !Join [",", [!Ref PrivateSubnet, !Ref PrivateSubnet2]]
 Outputs:
   VPCId:
     Value: !Ref VPC
