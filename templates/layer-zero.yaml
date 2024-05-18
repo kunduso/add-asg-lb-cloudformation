@@ -116,6 +116,14 @@ Resources:
         - Key: Name
           Value: !Sub '${Name}-route-table-private'
 
+  PrivateRouteTable2:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref VPC
+      Tags:
+        - Key: Name
+          Value: !Sub '${Name}-route-table-private'
+
   PrivateRouteTableAssociation:
     Type: AWS::EC2::SubnetRouteTableAssociation
     Properties:
@@ -125,14 +133,14 @@ Resources:
   PrivateRouteTableAssociation2:
     Type: AWS::EC2::SubnetRouteTableAssociation
     Properties:
-      RouteTableId: !Ref PrivateRouteTable
+      RouteTableId: !Ref PrivateRouteTable2
       SubnetId: !Ref PrivateSubnet2
 
   NatGateway:
       Type: AWS::EC2::NatGateway
       Properties:
         AllocationId: !GetAtt NatGatewayEIP1.AllocationId
-        SubnetId: !Ref PrivateSubnet
+        SubnetId: !Ref PublicSubnet
         Tags:
           - Key: Name
             Value: !Sub '${Name}-NAT-1'
@@ -142,7 +150,7 @@ Resources:
       Type: AWS::EC2::NatGateway
       Properties:
         AllocationId: !GetAtt NatGatewayEIP2.AllocationId
-        SubnetId: !Ref PrivateSubnet2
+        SubnetId: !Ref PublicSubnet2
         Tags:
           - Key: Name
             Value: !Sub '${Name}-NAT-2'
@@ -158,19 +166,19 @@ Resources:
     Properties:
       Domain: vpc
 
-  # PrivateRoute:
-  #   Type: AWS::EC2::Route
-  #   Properties:
-  #     DestinationCidrBlock: 0.0.0.0/0
-  #     NatGatewayId: !Ref NatGateway
-  #     RouteTableId: !Ref PrivateRouteTable
+  PrivateRoute:
+    Type: AWS::EC2::Route
+    Properties:
+      DestinationCidrBlock: 0.0.0.0/0
+      NatGatewayId: !Ref NatGateway
+      RouteTableId: !Ref PrivateRouteTable
 
-  # PrivateRoute2:
-  #   Type: AWS::EC2::Route
-  #   Properties:
-  #     DestinationCidrBlock: 0.0.0.0/0
-  #     NatGatewayId: !Ref NatGateway2
-  #     RouteTableId: !Ref PrivateRouteTable
+  PrivateRoute2:
+    Type: AWS::EC2::Route
+    Properties:
+      DestinationCidrBlock: 0.0.0.0/0
+      NatGatewayId: !Ref NatGateway2
+      RouteTableId: !Ref PrivateRouteTable
 Outputs:
   VPCId:
     Value: !Ref VPC
