@@ -52,7 +52,7 @@ jobs:
         aws cloudformation deploy \
           --template ./templates/layer-zero.yaml \
           --stack-name layer-zero \
-          --parameter-overrides file://./parameters/layer-zero.json
+          --parameter-overrides file://./parameters/layer-zero.json \
           --role-arn ${{ secrets.CFN_ROLE }} \
           --no-fail-on-empty-changeset
 
