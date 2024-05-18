@@ -49,13 +49,18 @@ Resources:
         - Key: Name
           Value: !Sub '${Name}-public-2'
 
-  RouteTable:
+  PublicRouteTable:
     Type: AWS::EC2::RouteTable
     Properties:
       VpcId: !Ref VPC
       Tags:
         - Key: Name
           Value: !Sub '${Name}-route-table'
+  PublicRouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId: !Ref PublicRouteTable
+      SubnetId: !Join [",", [!Ref PublicSubnet, !Ref PublicSubnet2]]
 
   PublicRoute:
     Type: AWS::EC2::Route
