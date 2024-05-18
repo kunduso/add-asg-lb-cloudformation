@@ -130,23 +130,23 @@ Resources:
 
   NatGateway:
       Type: AWS::EC2::NatGateway
-      DependsOn: InternetGateway
       Properties:
         AllocationId: !GetAtt NatGatewayEIP1.AllocationId
         SubnetId: !Ref PrivateSubnet
         Tags:
           - Key: Name
             Value: !Sub '${Name}-NAT-1'
+      DependsOn: InternetGateway
 
   NatGateway2:
       Type: AWS::EC2::NatGateway
-      DependsOn: InternetGateway
       Properties:
         AllocationId: !GetAtt NatGatewayEIP2.AllocationId
         SubnetId: !Ref PrivateSubnet2
         Tags:
           - Key: Name
             Value: !Sub '${Name}-NAT-2'
+      DependsOn: InternetGateway
 
   NatGatewayEIP1:
     Type: AWS::EC2::EIP
