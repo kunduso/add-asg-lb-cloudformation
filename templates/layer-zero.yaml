@@ -148,15 +148,15 @@ NatGateway2:
       - Key: Name
         Value: !Sub '${Name}-NAT-2'
 
-  NatGatewayEIP1:
-    Type: AWS::EC2::EIP
-    Properties:
-      Domain: vpc
+NatGatewayEIP1:
+  Type: AWS::EC2::EIP
+  Properties:
+    Domain: vpc
 
-  NatGatewayEIP2:
-    Type: AWS::EC2::EIP
-    Properties:
-      Domain: vpc
+NatGatewayEIP2:
+  Type: AWS::EC2::EIP
+  Properties:
+    Domain: vpc
 
   PrivateRoutes:
     Type: AWS::EC2::Route
