@@ -43,22 +43,25 @@ jobs:
         role-to-assume: ${{ secrets.IAM_ROLE }}
         role-session-name: AWSSession
         aws-region: us-east-2
-    - name: Generate Unique ID
-      id: unique_id
-      run: echo "UNIQUE_ID=$(date +'%Y%m%d')-${{ github.run_number }}-${{ github.run_attempt }}" >> $GITHUB_ENV
-    # - name: Deploy to AWS CloudFormation
-    #   run: |
-    #     aws cloudformation deploy \
-    #       --template ./templates/layer-zero.yaml \
-    #       --stack-name layer-zero \
-    #       --parameter-overrides file://./parameters/layer-zero.json
+    # - name: Generate Unique ID
+    #   id: unique_id
+    #   run: echo "UNIQUE_ID=$(date +'%Y%m%d')-${{ github.run_number }}-${{ github.run_attempt }}" >> $GITHUB_ENV
 
     - name: Deploy to AWS CloudFormation
       run: |
-        aws cloudformation create-change-set \
-          --template-body file://./templates/layer-zero.yaml \
+        aws cloudformation deploy \
+          --template ./templates/layer-zero.yaml \
           --stack-name layer-zero \
-          --parameters file://./parameters/layer-zero.json \
-          --change-set-name layer-zero-changeset-${{ env.UNIQUE_ID }} \
-      env:
-        UNIQUE_ID: ${{ env.UNIQUE_ID }}
+          --parameter-overrides file://./parameters/layer-zero.json
+          --role-arn ${{ secrets.CFN_ROLE }} \
+          --no-fail-on-empty-changeset
+
+    # - name: Deploy to AWS CloudFormation
+    #   run: |
+    #     aws cloudformation create-change-set \
+    #       --template-body file://./templates/layer-zero.yaml \
+    #       --stack-name layer-zero \
+    #       --parameters file://./parameters/layer-zero.json \
+    #       --change-set-name layer-zero-changeset-${{ env.UNIQUE_ID }} \
+    #   env:
+    #     UNIQUE_ID: ${{ env.UNIQUE_ID }}
