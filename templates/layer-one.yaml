@@ -16,4 +16,13 @@ Resources:
       Tags:
         - Key: Name
           Value: !Ref Name
+  SecurityGroupIngress:
+    Type: AWS::EC2::SecurityGroupIngress
+    Properties:
+      GroupId: !Ref LayerOne
+      IpProtocol: tcp
+      SourceSecurityGroupId: !Ref LayerOne
+      CidrIp: 0.0.0.0/0
+      FromPort: 80
+      ToPort: 80
 # Outputs:
