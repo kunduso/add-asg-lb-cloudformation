@@ -1,0 +1,19 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: Basic layer one resources
+Parameters: 
+  Name: 
+    Type: String
+    Description: The name prefix for all resources.
+    Default: ""
+
+Resources:
+  LayerOne:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupName: !Sub ${Name}-LayerOne
+      GroupDescription: Layer One Security Group
+      VpcId: {'Fn::ImportValue': !Sub 'layer-zero-VPCId'}
+      Tags:
+        - Key: Name
+          Value: !Ref Name
+# Outputs:
