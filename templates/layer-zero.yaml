@@ -182,15 +182,21 @@ Resources:
 Outputs:
   VPCId:
     Value: !Ref VPC
+    Export:
+      Name: !Sub '${AWS::StackName}-VPCId'
   PublicSubnetIds:
     Value:
       Fn::Join:
       - ","
       - - !Ref PublicSubnet
         - !Ref PublicSubnet2
+    Export:
+      Name: !Sub '${AWS::StackName}-PublicSubnetIds'
   PrivateSubnetIds:
     Value:
       Fn::Join:
       - ","
       - - !Ref PrivateSubnet
         - !Ref PrivateSubnet2
+    Export:
+      Name: !Sub '${AWS::StackName}-PrivateSubnetIds'
