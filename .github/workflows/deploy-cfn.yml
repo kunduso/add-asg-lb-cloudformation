@@ -47,7 +47,7 @@ jobs:
     #   id: unique_id
     #   run: echo "UNIQUE_ID=$(date +'%Y%m%d')-${{ github.run_number }}-${{ github.run_attempt }}" >> $GITHUB_ENV
 
-    - name: Deploy to AWS CloudFormation
+    - name: Deploy Layer Zero to AWS CloudFormation
       run: |
         aws cloudformation deploy \
           --template ./templates/layer-zero.yaml \
@@ -56,6 +56,15 @@ jobs:
           --role-arn ${{ secrets.CFN_ROLE }} \
           --no-fail-on-empty-changeset
 
+    - name: Deploy Layer One to AWS CloudFormation
+      run: |
+        aws cloudformation deploy \
+          --template ./templates/layer-one.yaml \
+          --stack-name layer-one \
+          --parameter-overrides file://./parameters/layer-one.json \
+          --role-arn ${{ secrets.CFN_ROLE }} \
+          --no-fail-on-empty-changeset
+  
     # - name: Deploy to AWS CloudFormation
     #   run: |
     #     aws cloudformation create-change-set \
