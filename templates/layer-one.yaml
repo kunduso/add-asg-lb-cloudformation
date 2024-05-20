@@ -26,6 +26,7 @@ Resources:
       Tags:
         - Key: Name
           Value: !Ref Name
+
   LBSecurityGroupIngress:
     Type: AWS::EC2::SecurityGroupIngress
     Properties:
@@ -43,13 +44,25 @@ Resources:
       CidrIp: 0.0.0.0/0
       FromPort: 80
       ToPort: 80
-  # SecurityGroupIngress:
-  #   Type: AWS::EC2::SecurityGroupIngress
-  #   Properties:
-  #     GroupId: !Ref LayerOne
-  #     IpProtocol: tcp
-  #     SourceSecurityGroupId: !Ref EC2SecurityGroup
-  #     CidrIp: 0.0.0.0/0
-  #     FromPort: 80
-  #     ToPort: 80
+    
+  EC2SecurityGroupIngress:
+    Type: AWS::EC2::SecurityGroupIngress
+    Properties:
+      GroupId: !Ref EC2SecurityGroup
+      IpProtocol: tcp
+      SourceSecurityGroupId: !Ref LBSecurityGroup
+      FromPort: 80
+      ToPort: 80
+      Description: Allow traffic from LB to EC2
+
+  EC2SecurityGroupEgress:
+    Type: AWS::EC2::SecurityGroupEgress
+    Properties:
+      GroupId: !Ref EC2SecurityGroup
+      IpProtocol: tcp
+      CidrIp: 0.0.0.0/0
+      FromPort: 80
+      ToPort: 80
+      Description: Allow traffic from EC2 to LB
+
 # Outputs:
