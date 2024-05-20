@@ -65,4 +65,105 @@ Resources:
       ToPort: 80
       Description: Allow traffic from EC2 to LB
 
+  ApplicationLaunchTemplate:
+    Type: AWS::EC2::LaunchTemplate
+    Properties:
+      LaunchTemplateName: application
+      LaunchTemplateData:
+        ImageId: !Ref ImageId
+        InstanceType: !Ref InstanceType
+        UserData: !Base64 |
+          Fn::Sub:
+            - ${file("${UserDataTemplate}")}
+            UserDataTemplate: "./scripts/user_data.tpl"
+        NetworkInterfaces:
+          - AssociatePublicIpAddress: "false"
+            Groups:
+              - !Ref EC2SecurityGroup
+        # IamInstanceProfile:
+        #   Name: ec2_profile
+
+  # ApplicationAutoScalingGroup:
+  #   Type: AWS::AutoScaling::AutoScalingGroup
+  #   Properties:
+  #     AutoScalingGroupName: app-3
+  #     MinSize: 3
+  #     MaxSize: 6
+  #     DesiredCapacity: 3
+  #     HealthCheckGracePeriod: 480
+  #     LaunchTemplate:
+  #       LaunchTemplateId: !Ref ApplicationLaunchTemplate
+  #       Version: !GetAtt [ApplicationLaunchTemplate, LatestVersionNumber]
+  #     VPCZoneIdentifier: !Ref PrivateSubnets
+  #     HealthCheckType: ELB
+  #     Tags:
+  #       - Key: Name
+  #         Value: app-3
+  #         PropagateAtLaunch: true
+  #       - Key: Source
+  #         Value: https://github.com/kunduso/add-asg-elb-terraform
+  #         PropagateAtLaunch: true
+  #     LifecycleHookSpecificationList:
+  #       - LifecycleTransition: autoscaling:EC2_INSTANCE_TERMINATING
+  #         HeartbeatTimeout: 300
+  #         DefaultResult: CONTINUE
+  #         NotificationMetadata: ""
+  #         LifecycleHookName: ""
+  #         RoleARN: ""
+
+  # ASGPolicyUp:
+  #   Type: AWS::AutoScaling::ScalingPolicy
+  #   Properties:
+  #     AutoScalingGroupName: !Ref ApplicationAutoScalingGroup
+  #     PolicyName: asg_policy_up
+  #     ScalingAdjustment: 1
+  #     AdjustmentType: ChangeInCapacity
+  #     Cooldown: 300
+
+  # ASGCPUAlarmUp:
+  #   Type: AWS::CloudWatch::Alarm
+  #   Properties:
+  #     AlarmName: asg_cpu_alarm_up
+  #     ComparisonOperator: GreaterThanOrEqualToThreshold
+  #     EvaluationPeriods: 2
+  #     MetricName: CPUUtilization
+  #     Namespace: AWS/EC2
+  #     Period: 60
+  #     Statistic: Average
+  #     Threshold: 70
+  #     Dimensions:
+  #       - Name: AutoScalingGroupName
+  #         Value: !Ref ApplicationAutoScalingGroup
+  #     AlarmDescription: This metric monitors EC2 CPU utilization
+  #     AlarmActions:
+  #       - !Ref ASGPolicyUp
+
+  # ASGPolicyDown:
+  #   Type: AWS::AutoScaling::ScalingPolicy
+  #   Properties:
+  #     AutoScalingGroupName: !Ref ApplicationAutoScalingGroup
+  #     PolicyName: asg_policy_down
+  #     ScalingAdjustment: -1
+  #     AdjustmentType: ChangeInCapacity
+  #     Cooldown: 300
+
+  # ASGCPUAlarmDown:
+  #   Type: AWS::CloudWatch::Alarm
+  #   Properties:
+  #     AlarmName: asg_cpu_alarm_down
+  #     ComparisonOperator: GreaterThanOrEqualToThreshold
+  #     EvaluationPeriods: 2
+  #     MetricName: CPUUtilization
+  #     Namespace: AWS/EC2
+  #     Period: 60
+  #     Statistic: Average
+  #     Threshold: 30
+  #     Dimensions:
+  #       - Name: AutoScalingGroupName
+  #         Value: !Ref ApplicationAutoScalingGroup
+  #     AlarmDescription: This metric monitors EC2 CPU utilization
+  #     AlarmActions:
+  #       - !Ref ASGPolicyDown
+
+
 # Outputs:
