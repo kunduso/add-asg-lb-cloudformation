@@ -70,8 +70,8 @@ Resources:
     Properties:
       LaunchTemplateName: application
       LaunchTemplateData:
-        ImageId: !Ref ImageId
-        InstanceType: !Ref InstanceType
+        ImageId: !Ref CustomImageId
+        InstanceType: !Ref CustomInstanceType
         UserData: !Base64 |
           Fn::Sub:
             - ${file("${UserDataTemplate}")}
