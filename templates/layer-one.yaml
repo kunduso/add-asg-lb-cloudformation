@@ -7,22 +7,32 @@ Parameters:
     Default: ""
 
 Resources:
-  LayerOne:
+  EC2SecurityGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:
-      GroupName: !Sub ${Name}-LayerOne
-      GroupDescription: Layer One Security Group
+      GroupName: !Sub LayerOne-${Name}-EC2
+      GroupDescription: Layer One EC2 Security Group
       VpcId: {'Fn::ImportValue': !Sub 'layer-zero-VPCId'}
       Tags:
         - Key: Name
           Value: !Ref Name
-  SecurityGroupIngress:
-    Type: AWS::EC2::SecurityGroupIngress
+
+  LBSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
     Properties:
-      GroupId: !Ref LayerOne
-      IpProtocol: tcp
-      SourceSecurityGroupId: !Ref LayerOne
-      CidrIp: 0.0.0.0/0
-      FromPort: 80
-      ToPort: 80
+      GroupName: !Sub LayerOne-${Name}-LB
+      GroupDescription: Layer One LB Security Group
+      VpcId: {'Fn::ImportValue': !Sub 'layer-zero-VPCId'}
+      Tags:
+        - Key: Name
+          Value: !Ref Name
+  # SecurityGroupIngress:
+  #   Type: AWS::EC2::SecurityGroupIngress
+  #   Properties:
+  #     GroupId: !Ref LayerOne
+  #     IpProtocol: tcp
+  #     SourceSecurityGroupId: !Ref EC2SecurityGroup
+  #     CidrIp: 0.0.0.0/0
+  #     FromPort: 80
+  #     ToPort: 80
 # Outputs:
