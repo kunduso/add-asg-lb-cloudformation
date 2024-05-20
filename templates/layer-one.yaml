@@ -5,7 +5,14 @@ Parameters:
     Type: String
     Description: The name prefix for all resources.
     Default: ""
-
+  CustomInstanceType: 
+    Type: String
+    Description: The instance type of the Amazon EC2 instances.
+    Default: ""
+  CustomImageId: 
+    Type: String
+    Description: The image id of the Amazon EC2 instances.
+    Default: ""
 Resources:
   EC2SecurityGroup:
     Type: AWS::EC2::SecurityGroup
