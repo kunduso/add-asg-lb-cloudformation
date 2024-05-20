@@ -26,6 +26,23 @@ Resources:
       Tags:
         - Key: Name
           Value: !Ref Name
+  LBSecurityGroupIngress:
+    Type: AWS::EC2::SecurityGroupIngress
+    Properties:
+      GroupId: !Ref LBSecurityGroup
+      IpProtocol: tcp
+      CidrIp: 0.0.0.0/0
+      FromPort: 80
+      ToPort: 80
+
+  LBSecurityGroupEgress:
+    Type: AWS::EC2::SecurityGroupEgress
+    Properties:
+      GroupId: !Ref LBSecurityGroup
+      IpProtocol: tcp
+      CidrIp: 0.0.0.0/0
+      FromPort: 80
+      ToPort: 80
   # SecurityGroupIngress:
   #   Type: AWS::EC2::SecurityGroupIngress
   #   Properties:
