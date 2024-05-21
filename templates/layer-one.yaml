@@ -101,7 +101,7 @@ Resources:
       LaunchTemplate:
         LaunchTemplateId: !Ref ApplicationLaunchTemplate
         Version: !GetAtt [ApplicationLaunchTemplate, LatestVersionNumber]
-      VPCZoneIdentifier: {'Fn::ImportValue': !Sub 'layer-zero-PrivateSubnetIds'}
+      VPCZoneIdentifier: Fn::ImportValue: !Sub 'layer-zero-PrivateSubnetIds'
       #HealthCheckType: ELB
       Tags:
         - Key: Name
@@ -111,11 +111,11 @@ Resources:
         #   Value: https://github.com/kunduso/add-asg-elb-terraform
           PropagateAtLaunch: true
       LifecycleHookSpecificationList:
-        - LifecycleTransition: autoscaling:EC2_INSTANCE_TERMINATING
+        - LifecycleTransition: autoscaling:EC2_INSTANCE_LAUNCHING
           HeartbeatTimeout: 300
           DefaultResult: CONTINUE
           # NotificationMetadata: ""
-          # LifecycleHookName: ""
+          LifecycleHookName: !Ref Name
           # RoleARN: ""
 
   # ASGPolicyUp:
