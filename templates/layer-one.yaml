@@ -83,10 +83,11 @@ Resources:
           Fn::Sub:
             - ${file("${UserDataTemplate}")}
             UserDataTemplate: "./scripts/user_data.tpl"
-        NetworkInterfaces:
-          - AssociatePublicIpAddress: "false"
-            Groups:
-              - !Ref EC2SecurityGroup
+        # NetworkInterfaces:
+        #   - AssociatePublicIpAddress: "false"
+        #     DeviceIndex: 0
+        #     Groups:
+        #       - !Ref EC2SecurityGroup
         # IamInstanceProfile:
         #   Name: ec2_profile
 
