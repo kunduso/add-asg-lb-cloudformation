@@ -101,7 +101,7 @@ Resources:
       LaunchTemplate:
         LaunchTemplateId: !Ref ApplicationLaunchTemplate
         Version: !GetAtt [ApplicationLaunchTemplate, LatestVersionNumber]
-      VPCZoneIdentifier: Fn::ImportValue: 'layer-zero-PrivateSubnetIds'
+      VPCZoneIdentifier: [{Fn::ImportValue: !Sub 'layer-zero-PrivateSubnetIds'}]
       #HealthCheckType: ELB
       Tags:
         - Key: Name
