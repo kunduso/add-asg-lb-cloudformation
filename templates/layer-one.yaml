@@ -117,63 +117,58 @@ Resources:
         - LifecycleTransition: autoscaling:EC2_INSTANCE_LAUNCHING
           HeartbeatTimeout: 300
           DefaultResult: CONTINUE
-          # NotificationMetadata: ""
           LifecycleHookName: !Ref Name
-          # RoleARN: ""
 
-  # ASGPolicyUp:
-  #   Type: AWS::AutoScaling::ScalingPolicy
-  #   Properties:
-  #     AutoScalingGroupName: !Ref ApplicationAutoScalingGroup
-  #     PolicyName: asg_policy_up
-  #     ScalingAdjustment: 1
-  #     AdjustmentType: ChangeInCapacity
-  #     Cooldown: 300
+  ASGPolicyUp:
+    Type: AWS::AutoScaling::ScalingPolicy
+    Properties:
+      AutoScalingGroupName: !Ref ApplicationAutoScalingGroup
+      PolicyName: asg_policy_up
+      ScalingAdjustment: 1
+      AdjustmentType: ChangeInCapacity
+      Cooldown: 300
 
-  # ASGCPUAlarmUp:
-  #   Type: AWS::CloudWatch::Alarm
-  #   Properties:
-  #     AlarmName: asg_cpu_alarm_up
-  #     ComparisonOperator: GreaterThanOrEqualToThreshold
-  #     EvaluationPeriods: 2
-  #     MetricName: CPUUtilization
-  #     Namespace: AWS/EC2
-  #     Period: 60
-  #     Statistic: Average
-  #     Threshold: 70
-  #     Dimensions:
-  #       - Name: AutoScalingGroupName
-  #         Value: !Ref ApplicationAutoScalingGroup
-  #     AlarmDescription: This metric monitors EC2 CPU utilization
-  #     AlarmActions:
-  #       - !Ref ASGPolicyUp
+  ASGCPUAlarmUp:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmName: asg_cpu_alarm_up
+      ComparisonOperator: GreaterThanOrEqualToThreshold
+      EvaluationPeriods: 2
+      MetricName: CPUUtilization
+      Namespace: AWS/EC2
+      Period: 60
+      Statistic: Average
+      Threshold: 70
+      Dimensions:
+        - Name: AutoScalingGroupName
+          Value: !Ref ApplicationAutoScalingGroup
+      AlarmDescription: This metric monitors EC2 CPU utilization
+      AlarmActions:
+        - !Ref ASGPolicyUp
 
-  # ASGPolicyDown:
-  #   Type: AWS::AutoScaling::ScalingPolicy
-  #   Properties:
-  #     AutoScalingGroupName: !Ref ApplicationAutoScalingGroup
-  #     PolicyName: asg_policy_down
-  #     ScalingAdjustment: -1
-  #     AdjustmentType: ChangeInCapacity
-  #     Cooldown: 300
+  ASGPolicyDown:
+    Type: AWS::AutoScaling::ScalingPolicy
+    Properties:
+      AutoScalingGroupName: !Ref ApplicationAutoScalingGroup
+      PolicyName: asg_policy_down
+      ScalingAdjustment: -1
+      AdjustmentType: ChangeInCapacity
+      Cooldown: 300
 
-  # ASGCPUAlarmDown:
-  #   Type: AWS::CloudWatch::Alarm
-  #   Properties:
-  #     AlarmName: asg_cpu_alarm_down
-  #     ComparisonOperator: GreaterThanOrEqualToThreshold
-  #     EvaluationPeriods: 2
-  #     MetricName: CPUUtilization
-  #     Namespace: AWS/EC2
-  #     Period: 60
-  #     Statistic: Average
-  #     Threshold: 30
-  #     Dimensions:
-  #       - Name: AutoScalingGroupName
-  #         Value: !Ref ApplicationAutoScalingGroup
-  #     AlarmDescription: This metric monitors EC2 CPU utilization
-  #     AlarmActions:
-  #       - !Ref ASGPolicyDown
-
-
-# Outputs:
+  ASGCPUAlarmDown:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmName: asg_cpu_alarm_down
+      ComparisonOperator: GreaterThanOrEqualToThreshold
+      EvaluationPeriods: 2
+      MetricName: CPUUtilization
+      Namespace: AWS/EC2
+      Period: 60
+      Statistic: Average
+      Threshold: 30
+      Dimensions:
+        - Name: AutoScalingGroupName
+          Value: !Ref ApplicationAutoScalingGroup
+      AlarmDescription: This metric monitors EC2 CPU utilization
+      AlarmActions:
+        - !Ref ASGPolicyDown
