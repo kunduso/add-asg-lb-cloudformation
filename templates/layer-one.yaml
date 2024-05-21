@@ -90,33 +90,33 @@ Resources:
         # IamInstanceProfile:
         #   Name: ec2_profile
 
-  # ApplicationAutoScalingGroup:
-  #   Type: AWS::AutoScaling::AutoScalingGroup
-  #   Properties:
-  #     AutoScalingGroupName: app-3
-  #     MinSize: 3
-  #     MaxSize: 6
-  #     DesiredCapacity: 3
-  #     HealthCheckGracePeriod: 480
-  #     LaunchTemplate:
-  #       LaunchTemplateId: !Ref ApplicationLaunchTemplate
-  #       Version: !GetAtt [ApplicationLaunchTemplate, LatestVersionNumber]
-  #     VPCZoneIdentifier: !Ref PrivateSubnets
-  #     HealthCheckType: ELB
-  #     Tags:
-  #       - Key: Name
-  #         Value: app-3
-  #         PropagateAtLaunch: true
-  #       - Key: Source
-  #         Value: https://github.com/kunduso/add-asg-elb-terraform
-  #         PropagateAtLaunch: true
-  #     LifecycleHookSpecificationList:
-  #       - LifecycleTransition: autoscaling:EC2_INSTANCE_TERMINATING
-  #         HeartbeatTimeout: 300
-  #         DefaultResult: CONTINUE
-  #         NotificationMetadata: ""
-  #         LifecycleHookName: ""
-  #         RoleARN: ""
+  ApplicationAutoScalingGroup:
+    Type: AWS::AutoScaling::AutoScalingGroup
+    Properties:
+      AutoScalingGroupName: app-3
+      MinSize: 3
+      MaxSize: 6
+      DesiredCapacity: 3
+      HealthCheckGracePeriod: 480
+      LaunchTemplate:
+        LaunchTemplateId: !Ref ApplicationLaunchTemplate
+        Version: !GetAtt [ApplicationLaunchTemplate, LatestVersionNumber]
+      VPCZoneIdentifier: {'Fn::ImportValue': !Sub 'layer-zero-PrivateSubnetIds'}
+      #HealthCheckType: ELB
+      Tags:
+        - Key: Name
+          Value: !Ref Name
+          PropagateAtLaunch: true
+        # - Key: Source
+        #   Value: https://github.com/kunduso/add-asg-elb-terraform
+          PropagateAtLaunch: true
+      LifecycleHookSpecificationList:
+        - LifecycleTransition: autoscaling:EC2_INSTANCE_TERMINATING
+          HeartbeatTimeout: 300
+          DefaultResult: CONTINUE
+          # NotificationMetadata: ""
+          # LifecycleHookName: ""
+          # RoleARN: ""
 
   # ASGPolicyUp:
   #   Type: AWS::AutoScaling::ScalingPolicy
