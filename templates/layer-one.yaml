@@ -241,7 +241,7 @@ Resources:
       Name: !Ref Name
       Scheme: internet-facing
       Type: application
-      Subnets: [{Fn::ImportValue: !Sub 'layer-zero-PublicSubnetIds'}]
+      Subnets: {Fn::ImportValue: !Sub 'layer-zero-PublicSubnetIds'}
       SecurityGroups:
         - !Ref LBSecurityGroup
       Tags:
