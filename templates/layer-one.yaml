@@ -208,42 +208,42 @@ Resources:
       Roles:
         - Ref: "EC2Role"
 
-  FrontTargetGroup:
-    Type: "AWS::ElasticLoadBalancingV2::TargetGroup"
-    Properties:
-      Name: !Sub '${Name}-front'
-      Port: 80
-      Protocol: HTTP
-      VpcId: {'Fn::ImportValue': !Sub 'layer-zero-VPCId'}
-      HealthCheckIntervalSeconds: 10
-      HealthCheckPath: "/"
-      HealthCheckPort: "traffic-port"
-      HealthCheckProtocol: HTTP
-      HealthCheckTimeoutSeconds: 3
-      HealthyThresholdCount: 3
-      UnhealthyThresholdCount: 2
-      Matcher:
-        HttpCode: "200"
+  # FrontTargetGroup:
+  #   Type: "AWS::ElasticLoadBalancingV2::TargetGroup"
+  #   Properties:
+  #     Name: !Sub '${Name}-front'
+  #     Port: 80
+  #     Protocol: HTTP
+  #     VpcId: {'Fn::ImportValue': !Sub 'layer-zero-VPCId'}
+  #     HealthCheckIntervalSeconds: 10
+  #     HealthCheckPath: "/"
+  #     HealthCheckPort: "traffic-port"
+  #     HealthCheckProtocol: HTTP
+  #     HealthCheckTimeoutSeconds: 3
+  #     HealthyThresholdCount: 3
+  #     UnhealthyThresholdCount: 2
+  #     Matcher:
+  #       HttpCode: "200"
 
-  FrontListener:
-    Type: "AWS::ElasticLoadBalancingV2::Listener"
-    Properties:
-      DefaultActions:
-        - Type: forward
-          TargetGroupArn: !Ref FrontTargetGroup
-      LoadBalancerArn: !Ref FrontLoadBalancer
-      Port: 80
-      Protocol: HTTP
+  # FrontListener:
+  #   Type: "AWS::ElasticLoadBalancingV2::Listener"
+  #   Properties:
+  #     DefaultActions:
+  #       - Type: forward
+  #         TargetGroupArn: !Ref FrontTargetGroup
+  #     LoadBalancerArn: !Ref FrontLoadBalancer
+  #     Port: 80
+  #     Protocol: HTTP
 
-  FrontLoadBalancer:
-    Type: "AWS::ElasticLoadBalancingV2::LoadBalancer"
-    Properties:
-      Name: !Ref Name
-      Scheme: internet-facing
-      Type: application
-      Subnets: {Fn::ImportValue: !Sub 'layer-zero-PublicSubnetIds'}
-      SecurityGroups:
-        - !Ref LBSecurityGroup
-      Tags:
-        - Key: Name
-          Value: !Ref Name
+  # FrontLoadBalancer:
+  #   Type: "AWS::ElasticLoadBalancingV2::LoadBalancer"
+  #   Properties:
+  #     Name: !Ref Name
+  #     Scheme: internet-facing
+  #     Type: application
+  #     Subnets: {Fn::ImportValue: !Sub 'layer-zero-PublicSubnetIds'}
+  #     SecurityGroups:
+  #       - !Ref LBSecurityGroup
+  #     Tags:
+  #       - Key: Name
+  #         Value: !Ref Name
