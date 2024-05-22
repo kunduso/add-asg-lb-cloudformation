@@ -176,7 +176,7 @@ Resources:
   EC2Role:
     Type: "AWS::IAM::Role"
     Properties:
-      RoleName: !Ref Name + "_ec2_role"
+      RoleName: !Sub '${Name}_ec2_role'
       ManagedPolicyArns:
         - "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
       AssumeRolePolicyDocument:
