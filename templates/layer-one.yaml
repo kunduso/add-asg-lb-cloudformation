@@ -222,7 +222,8 @@ Resources:
       HealthCheckTimeoutSeconds: 3
       HealthyThresholdCount: 3
       UnhealthyThresholdCount: 2
-      Matcher: "200"
+      Matcher:
+        HttpCode: "200"
 
   FrontListener:
     Type: "AWS::ElasticLoadBalancingV2::Listener"
