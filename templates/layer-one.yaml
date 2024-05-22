@@ -71,7 +71,15 @@ Resources:
       FromPort: 80
       ToPort: 80
       Description: Allow traffic from EC2 to LB
-
+  EC2SecurityGroupEgressForSSM:
+    Type: AWS::EC2::SecurityGroupEgress
+    Properties:
+      GroupId: !Ref EC2SecurityGroup
+      IpProtocol: tcp
+      CidrIp: 0.0.0.0/0
+      FromPort: 0
+      ToPort: 0
+      Description: Allow connecton to SSM
   ApplicationLaunchTemplate:
     Type: AWS::EC2::LaunchTemplate
     Properties:
