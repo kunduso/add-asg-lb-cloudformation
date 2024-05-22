@@ -5,14 +5,14 @@
     },
     {
       "ParameterKey": "VpcCidr",
-      "ParameterValue": "10.40.45.0/26"
+      "ParameterValue": "10.40.45.0/25"
     },
     {
       "ParameterKey": "SubnetCidrPublic",
-      "ParameterValue": "10.40.45.0/28,10.40.45.16/28"
+      "ParameterValue": "10.40.45.0/27,10.40.45.32/27"
     },
     {
       "ParameterKey": "SubnetCidrPrivate",
-      "ParameterValue": "10.40.45.32/28,10.40.45.48/28"
+      "ParameterValue": "10.40.45.64/27,10.40.45.96/27"
     }
   ]
