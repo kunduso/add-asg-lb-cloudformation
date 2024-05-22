@@ -123,15 +123,9 @@ Resources:
       HealthCheckType: ELB
       TargetGroupARNs:
         - !Ref FrontTargetGroup
-      UpdatePolicy:
-        AutoScalingReplacingUpdate:
-          WillReplace: true
       Tags:
         - Key: Name
           Value: !Ref Name
-          PropagateAtLaunch: true
-        # - Key: Source
-        #   Value: https://github.com/kunduso/add-asg-elb-terraform
           PropagateAtLaunch: true
       LifecycleHookSpecificationList:
         - LifecycleTransition: autoscaling:EC2_INSTANCE_LAUNCHING
@@ -228,7 +222,7 @@ Resources:
       HealthCheckTimeoutSeconds: 3
       HealthyThresholdCount: 3
       UnhealthyThresholdCount: 2
-      Matcher: 200
+      Matcher: "200"
 
   FrontListener:
     Type: "AWS::ElasticLoadBalancingV2::Listener"
