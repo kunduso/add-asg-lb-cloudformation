@@ -90,8 +90,8 @@ Resources:
         #     DeviceIndex: 0
         #     Groups:
         #       - !Ref EC2SecurityGroup
-        # IamInstanceProfile:
-        #   Name: ec2_profile
+        IamInstanceProfile:
+          Name: !Ref EC2InstanceProfile
 
   ApplicationAutoScalingGroup:
     Type: AWS::AutoScaling::AutoScalingGroup
@@ -190,6 +190,6 @@ Resources:
   EC2InstanceProfile:
     Type: "AWS::IAM::InstanceProfile"
     Properties:
-      InstanceProfileName: "ec2_profile"
+      InstanceProfileName: !Sub '${Name}_ec2_profile'
       Roles:
         - Ref: "EC2Role"
