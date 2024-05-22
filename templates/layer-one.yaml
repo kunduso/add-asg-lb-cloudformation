@@ -235,15 +235,15 @@ Resources:
   #     Port: 80
   #     Protocol: HTTP
 
-  # FrontLoadBalancer:
-  #   Type: "AWS::ElasticLoadBalancingV2::LoadBalancer"
-  #   Properties:
-  #     Name: !Ref Name
-  #     Scheme: internet-facing
-  #     Type: application
-  #     Subnets: {Fn::ImportValue: !Sub 'layer-zero-PublicSubnetIds'}
-  #     SecurityGroups:
-  #       - !Ref LBSecurityGroup
-  #     Tags:
-  #       - Key: Name
-  #         Value: !Ref Name
+  FrontLoadBalancer:
+    Type: "AWS::ElasticLoadBalancingV2::LoadBalancer"
+    Properties:
+      Name: !Ref Name
+      Scheme: internet-facing
+      Type: application
+      Subnets: {Fn::ImportValue: !Sub 'layer-zero-PublicSubnetIds'}
+      SecurityGroups:
+        - !Ref LBSecurityGroup
+      Tags:
+        - Key: Name
+          Value: !Ref Name
