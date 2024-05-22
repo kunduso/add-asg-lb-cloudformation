@@ -172,3 +172,24 @@ Resources:
       AlarmDescription: This metric monitors EC2 CPU utilization
       AlarmActions:
         - !Ref ASGPolicyDown
+
+  EC2Role:
+    Type: "AWS::IAM::Role"
+    Properties:
+      RoleName: !Ref Name + "_ec2_role"
+      ManagedPolicyArns:
+        - "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: "Allow"
+            Principal:
+              Service: "ec2.amazonaws.com"
+            Action: "sts:AssumeRole"
+
+  EC2InstanceProfile:
+    Type: "AWS::IAM::InstanceProfile"
+    Properties:
+      InstanceProfileName: "ec2_profile"
+      Roles:
+        - Ref: "EC2Role"
