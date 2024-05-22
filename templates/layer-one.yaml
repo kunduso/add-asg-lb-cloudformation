@@ -242,7 +242,8 @@ Resources:
       Scheme: internet-facing
       Type: application
       Subnets: 
-        - !Split [",", !ImportValue !Sub 'layer-zero-PublicSubnetIds']
+      - !Select [0, !Split [",", !Sub "${layer-zero-PublicSubnetIds}"]]
+      - !Select [1, !Split [",", !Sub "${layer-zero-PublicSubnetIds}"]]
       SecurityGroups:
         - !Ref LBSecurityGroup
       Tags:
