@@ -225,15 +225,15 @@ Resources:
       Matcher:
         HttpCode: "200"
 
-  # FrontListener:
-  #   Type: "AWS::ElasticLoadBalancingV2::Listener"
-  #   Properties:
-  #     DefaultActions:
-  #       - Type: forward
-  #         TargetGroupArn: !Ref FrontTargetGroup
-  #     LoadBalancerArn: !Ref FrontLoadBalancer
-  #     Port: 80
-  #     Protocol: HTTP
+  FrontListener:
+    Type: "AWS::ElasticLoadBalancingV2::Listener"
+    Properties:
+      DefaultActions:
+        - Type: forward
+          TargetGroupArn: !Ref FrontTargetGroup
+      LoadBalancerArn: !Ref FrontLoadBalancer
+      Port: 80
+      Protocol: HTTP
 
   FrontLoadBalancer:
     Type: "AWS::ElasticLoadBalancingV2::LoadBalancer"
