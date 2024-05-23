@@ -114,7 +114,7 @@ Resources:
       AutoScalingGroupName: app-3
       MinSize: 3
       MaxSize: 6
-      DesiredCapacity: 3
+      DesiredCapacity: 2
       HealthCheckGracePeriod: 480
       LaunchTemplate:
         LaunchTemplateId: !Ref ApplicationLaunchTemplate
