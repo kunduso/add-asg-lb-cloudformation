@@ -112,7 +112,7 @@ Resources:
     Type: AWS::AutoScaling::AutoScalingGroup
     Properties:
       AutoScalingGroupName: app-3
-      MinSize: 3
+      MinSize: 2
       MaxSize: 6
       DesiredCapacity: 2
       HealthCheckGracePeriod: 480
