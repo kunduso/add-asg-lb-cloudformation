@@ -36,12 +36,14 @@ Resources:
 
   LBSecurityGroupIngress:
     Type: AWS::EC2::SecurityGroupIngress
+    # checkov:skip=CKV_AWS_260: This SG ingress is for the LB
     Properties:
       GroupId: !Ref LBSecurityGroup
       IpProtocol: tcp
       CidrIp: 0.0.0.0/0
       FromPort: 80
       ToPort: 80
+      Description: "Allow traffic from anywhere to LB"
 
   LBSecurityGroupEgress:
     Type: AWS::EC2::SecurityGroupEgress
@@ -51,6 +53,7 @@ Resources:
       CidrIp: 0.0.0.0/0
       FromPort: 80
       ToPort: 80
+      Description: "Allow traffic from LB to anywhere"
     
   EC2SecurityGroupIngress:
     Type: AWS::EC2::SecurityGroupIngress
