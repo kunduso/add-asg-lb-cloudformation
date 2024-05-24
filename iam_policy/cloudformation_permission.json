@@ -1,0 +1,13 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Principal": {
+            "AWS": "${replace-with-arn-of-IAM-role-stored-as-secrets.IAM_ROLE}",
+            "Service": "cloudformation.amazonaws.com"
+        },
+        "Action": "sts:AssumeRole"
+        }
+    ]
+}
