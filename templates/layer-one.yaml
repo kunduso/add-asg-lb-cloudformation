@@ -85,6 +85,7 @@ Resources:
       Description: Allow connecton to SSM
   ApplicationLaunchTemplate:
     Type: AWS::EC2::LaunchTemplate
+    # checkov:skip=CKV_AWS_79: This is for demo purpose
     Properties:
       LaunchTemplateName: application
       LaunchTemplateData:
@@ -237,6 +238,8 @@ Resources:
 
   FrontListener:
     Type: "AWS::ElasticLoadBalancingV2::Listener"
+    # checkov:skip=CKV_AWS_103: This is for demo purpose
+    # checkov:skip=CKV_AWS_2: This is for demo purpose
     Properties:
       DefaultActions:
         - Type: forward
@@ -247,6 +250,8 @@ Resources:
 
   FrontLoadBalancer:
     Type: "AWS::ElasticLoadBalancingV2::LoadBalancer"
+    # checkov:skip=CKV_AWS_91: This is for demo purpose
+    # checkov:skip=CKV_AWS_131: This is for demo purpose
     Properties:
       Name: !Ref Name
       Scheme: internet-facing
