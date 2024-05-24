@@ -1,0 +1,14 @@
+[
+    {
+      "ParameterKey": "Name",
+      "ParameterValue": "app-5"
+    },
+    {
+      "ParameterKey": "CustomInstanceType",
+      "ParameterValue": "t2.medium"
+    },
+    {
+      "ParameterKey": "CustomImageId",
+      "ParameterValue": "ami-0ec5c7d8262c1f6b2"
+    }
+  ]

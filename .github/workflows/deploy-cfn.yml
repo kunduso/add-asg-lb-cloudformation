@@ -12,11 +12,6 @@ on:
       - '**/README.md'
 
 permissions: read-all
-#--------------------------
-#
-# PLEASE READ: Add a GitHub Actions variable 'INFRACOST_SCAN_TYPE' and set the value to either 'hcl_code' or 'tf_plan' depending on what type of Infracost scan desired.
-#
-#--------------------------
 jobs:
   deploy:
     name: 'continuous-integration'
@@ -44,14 +39,21 @@ jobs:
         role-session-name: AWSSession
         aws-region: us-east-2
 
-    # - name: Deploy to AWS CloudFormation
-    #   uses: aws-actions/aws-cloudformation-github-deploy@v1
-    #   with:
-    #     name: layer-zero
-    #     template: ./templates/layer-zero.yaml
-    - name: Deploy to AWS CloudFormation
+    - name: Deploy Layer Zero to AWS CloudFormation
       run: |
         aws cloudformation deploy \
           --template ./templates/layer-zero.yaml \
           --stack-name layer-zero \
-          --parameter-overrides file://./parameters/layer-zero.json
+          --parameter-overrides file://./parameters/layer-zero.json \
+          --role-arn ${{ secrets.CFN_ROLE }} \
+          --no-fail-on-empty-changeset
+
+    - name: Deploy Layer One to AWS CloudFormation
+      run: |
+        aws cloudformation deploy \
+          --template ./templates/layer-one.yaml \
+          --stack-name layer-one \
+          --parameter-overrides file://./parameters/layer-one.json \
+          --role-arn ${{ secrets.CFN_ROLE }} \
+          --capabilities CAPABILITY_NAMED_IAM \
+          --no-fail-on-empty-changeset
