@@ -103,18 +103,13 @@ Resources:
           systemctl start httpd.service
           systemctl enable httpd.service
           echo "Updated Message: Hello World from $(hostname -f) from the availability zone: $REGION_AV_ZONE" > /var/www/html/index.html
-        # NetworkInterfaces:
-        #   - AssociatePublicIpAddress: "false"
-        #     DeviceIndex: 0
-        #     Groups:
-        #       - !Ref EC2SecurityGroup
         IamInstanceProfile:
           Name: !Ref EC2InstanceProfile
 
   ApplicationAutoScalingGroup:
     Type: AWS::AutoScaling::AutoScalingGroup
     Properties:
-      AutoScalingGroupName: app-3
+      AutoScalingGroupName: !Ref Name
       MinSize: 2
       MaxSize: 6
       DesiredCapacity: 2
@@ -162,6 +157,9 @@ Resources:
       AlarmDescription: This metric monitors EC2 CPU utilization
       AlarmActions:
         - !Ref ASGPolicyUp
+      Tags:
+        - Key: Name
+          Value: !Ref Name
 
   ASGPolicyDown:
     Type: AWS::AutoScaling::ScalingPolicy
@@ -189,6 +187,9 @@ Resources:
       AlarmDescription: This metric monitors EC2 CPU utilization
       AlarmActions:
         - !Ref ASGPolicyDown
+      Tags:
+        - Key: Name
+          Value: !Ref Name
 
   EC2Role:
     Type: "AWS::IAM::Role"
@@ -203,6 +204,9 @@ Resources:
             Principal:
               Service: "ec2.amazonaws.com"
             Action: "sts:AssumeRole"
+      Tags:
+        - Key: Name
+          Value: !Ref Name
 
   EC2InstanceProfile:
     Type: "AWS::IAM::InstanceProfile"
@@ -227,6 +231,9 @@ Resources:
       UnhealthyThresholdCount: 2
       Matcher:
         HttpCode: "200"
+      Tags:
+        - Key: Name
+          Value: !Ref Name
 
   FrontListener:
     Type: "AWS::ElasticLoadBalancingV2::Listener"
